@@ -20,8 +20,6 @@ jobs:
           - os: windows-latest
             shell: powershell
             arch: x86_64
-          - os: ubuntu-latest
-            shell: bash
 
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
