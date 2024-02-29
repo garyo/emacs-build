@@ -23,8 +23,6 @@ jobs:
 
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
-    permissions:
-      contents: write
     env:
       MSYS2_DIR: C:\msys64
       EMACS_REPO: https://git.savannah.gnu.org/git/emacs.git
