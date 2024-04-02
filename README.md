@@ -11,7 +11,7 @@ set emacs_branch=emacs-29
 .\emacs-build.cmd --branch %emacs_branch% --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --pack-all
 ```
 
-CFLAGS contain `-mtune=native -march=native` so using github workflow to build remotely won't optimize for my Ryzen9.  Instead I should replace with `-mtune=znver2 -march=znver2`.  For laptop use `skylake`.
+CFLAGS contain `-mtune=native -march=native` so using github workflow to build remotely won't optimize for my Ryzen9.  Instead I should replace with `-mtune=znver3 -march=znver3`.  For laptop use `skylake`.
 
 Recently got this error followed by a long list of possible solutions 
 
