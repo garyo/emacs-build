@@ -27,7 +27,7 @@ jobs:
       MSYS2_DIR: C:\msys64
       EMACS_REPO: https://git.savannah.gnu.org/git/emacs.git
       EMACS_BRANCH: emacs-29
-      CFLAGS: -O3 -mtune=znver3 -march=znver3 -fomit-frame-pointer
+      CFLAGS: -O2 -fno-semantic-interposition -floop-parallelize-all -ftree-parallelize-loops=4
 
     defaults:
       run:
