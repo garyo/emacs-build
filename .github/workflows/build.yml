@@ -75,13 +75,13 @@ jobs:
         with:
           # Require --nativecomp and --with-* flags, else the deps will not be included properly
           command: |
-            .\emacs-build.cmd --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --build
+            .\emacs-build.cmd --branch ${{ env.EMACS_BRANCH }} --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --build
           attempt_limit: 5
           attempt_delay: 2000
 
       - name: Package Emacs
         if: runner.os == 'Windows'
-        run: .\emacs-build.cmd --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --pack-all
+        run: .\emacs-build.cmd --branch ${{ env.EMACS_BRANCH }} --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --pack-all
 
       - name: Build and pack Emacs
         if: runner.os != 'Windows'
