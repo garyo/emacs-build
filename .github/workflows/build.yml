@@ -53,7 +53,7 @@ jobs:
       # This is the shortest job, but in this case it pulls all MSYS/MINGW64
       - name: Clone Emacs
         if: runner.os == 'Windows'
-        run: .\emacs-build.cmd --clone --repo https://git.savannah.gnu.org/git/emacs.git --branch $EMACS_BRANCH --depth 1
+        run: .\emacs-build.cmd --clone --repo https://git.savannah.gnu.org/git/emacs.git --branch ${{ env.EMACS_BRANCH }} --depth 1
 
       - name: Clone Emacs
         if: runner.os != 'Windows'
