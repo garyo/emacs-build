@@ -26,7 +26,7 @@ jobs:
     env:
       MSYS2_DIR: C:\msys64
       EMACS_REPO: https://git.savannah.gnu.org/git/emacs.git
-      EMACS_BRANCH: emacs-29
+      EMACS_BRANCH: master
       CFLAGS: -O2 -fno-semantic-interposition -floop-parallelize-all -ftree-parallelize-loops=4
 
     defaults:
