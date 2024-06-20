@@ -306,7 +306,7 @@ function action5_package_all ()
         done
         emacs_build_strip_exes "$emacs_full_install_dir"
         if test "$emacs_compress_files" = "no"; then
-            xargs zip -9v "$emacs_distfile" ./*
+            zip -9rv "$emacs_distfile" ./*
         else
             # find . -type f | sort | dependency_filter > a.txt
             find . -type f | sort | dependency_filter "$packing_slim_exclusion" \
