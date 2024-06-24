@@ -28,6 +28,8 @@
 # See write_help below for all options.
 #
 
+set -x
+
 . scripts/tools.sh
 . scripts/pdf-tools.sh
 . scripts/aspell.sh
@@ -464,7 +466,11 @@ emacs_build_install_dir="$emacs_build_root/pkg"
 emacs_build_zip_dir="$emacs_build_root/zips"
 emacs_strip_executables="no"
 
-CFLAGS="-O2 -fno-semantic-interposition -floop-parallelize-all -ftree-parallelize-loops=4"
+# Optimize for AMD Ryzen Threadripper 1950X (AMD Family 17h, from 2017) with mtune=znver1
+# (see GCC mtune page for other architectures)
+# Minimum CPU is Skylake, from 2016.
+ARCHFLAGS="-march=skylake -mtune=znver1"
+CFLAGS="-O2 -fno-semantic-interposition -floop-parallelize-all -ftree-parallelize-loops=4 $ARCHFLAGS"
 
 while test -n "$*"; do
     case $1 in
@@ -529,7 +535,7 @@ if test "$emacs_slim_build" = "yes"; then
     dependency_exclusions="$dependency_slim_exclusions"
 fi
 if test -z "$emacs_branch"; then
-    emacs_branch="emacs-29"
+    emacs_branch="master"
 fi
 actions=`unique_list $actions`
 if test -z "$actions"; then

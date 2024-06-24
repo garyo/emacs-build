@@ -4,6 +4,8 @@ name: build
 
 # Controls when the action will run.
 on:
+  schedule:
+    - cron: "0 0 * * 0" # weekly
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -51,7 +53,7 @@ jobs:
         with:
           release: false
       # This is the shortest job, but in this case it pulls all MSYS/MINGW64
-      - name: Clone Emacs
+      - name: Clone Emacs and install MSYS/MINGW64
         if: runner.os == 'Windows'
         run: .\emacs-build.cmd --clone --repo https://git.savannah.gnu.org/git/emacs.git --branch ${{ env.EMACS_BRANCH }} --depth 1
 
@@ -69,19 +71,21 @@ jobs:
           echo "EMACS_VER=${{ env.EMACS_MAJOR_VER }}.${{ github.run_number }}.${{ env.EMACS_COMMIT }}" >> $GITHUB_ENV
         shell: bash
 
+      # Build into pkg/ and package into zips/
       - name: Build Emacs
         if: runner.os == 'Windows'
         uses: Wandalen/wretry.action@master
         with:
           # Require --nativecomp and --with-* flags, else the deps will not be included properly
           command: |
-            .\emacs-build.cmd --branch ${{ env.EMACS_BRANCH }} --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --build
+            .\emacs-build.cmd --branch ${{ env.EMACS_BRANCH }} --nativecomp --without-pop --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --build
           attempt_limit: 5
           attempt_delay: 2000
 
       - name: Package Emacs
         if: runner.os == 'Windows'
-        run: .\emacs-build.cmd --branch ${{ env.EMACS_BRANCH }} --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --pack-all
+        run: |
+          .\emacs-build.cmd --branch ${{ env.EMACS_BRANCH }} --nativecomp --without-pop --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --pack-all
 
       - name: Build and pack Emacs
         if: runner.os != 'Windows'
@@ -92,7 +96,7 @@ jobs:
 
       # Upload everything
       - name: Upload binaries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: emacs-packages
           path: zips/*
@@ -106,19 +110,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download binaries
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: emacs-packages
-      - run: ls -R
 
       # Create release
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ needs.build.outputs.version }}
           name: emacs_${{ needs.build.outputs.version }}
           prerelease: false
           files: |
             *-full.zip
-            *.deb

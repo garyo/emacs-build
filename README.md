@@ -21,13 +21,16 @@ Warning (emacs): Org version mismatch. Org loading aborted. This warning usually
 
 One of the suggestions is running `make bootstrap` (also mentioned [here](https://www.reddit.com/r/emacs/comments/10mk42s/issue_with_org_and_straight/jqhlgck/) so I added it to `emacs-build.sh`.
 
-# emacs-build v0.4
+
+# emacs-build v0.4 (+garyo)
 
 Scripts to build a distribution of Emacs from sources, using MSYS2 and Mingw64(32)
 
+Note: this is Gary's fork of this script.
+
 ## Rationale
 
-I wanted a script to build Emacs from sources, package it and install it on
+The original developer wanted a script to build Emacs from sources, package it and install it on
 different computers, with the following conditions
 
 - I should be able to build any branch or release from Emacs. This includes the last release branch (right now emacs-27), as well as the master branch for development. Always using pristine sources from Savannah.
@@ -35,6 +38,14 @@ different computers, with the following conditions
 - The script needs to track all packages that are required by the Emacs build even if I change the build options.
 - The installation should take as little space as possible, removing useless directories or files that come from the dependencies. For instance, headers from libraries used by emacs, spurious documentation files, etc.
 - The script should be able to build other components I regularly use, such as mu, mu4e or pdf-tools, in a way that is not affected by updates to the mingw or msys environments.
+
+Gary:
+- I want a full emacs build with all the bells and whistles, non-stripped and fully optimized for use as a daily driver. I don't care about `aspell` or `pdf-utils` or the other add-ons, so my settings don't build those.
+
+## Overview
+
+On Windows, run `emacs-build.cmd [--garyo]` in a powershell window. This runs `emacs-build.sh` with the appropriate args to set up mingw and build emacs. The build is done in `pkg/` and the final zips are created in `zips/`. The file `zips/emacs-master-x86_64-full.zip` has everything; you can unzip that and run from anywhere.
+Alternatively for a local build, just `cp -R pkg/master-x86_64-full/* <emacs-install-dir>` (or `rsync -avz` etc.) to install.
 
 ## Usage
 
