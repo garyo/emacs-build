@@ -136,7 +136,8 @@ function emacs_dependencies ()
 function emacs_configure_build_dir ()
 {
     cd "$emacs_build_dir"
-    options="--disable-build-details --without-dbus"
+    # Don't use "--disable-build-details" or else M-x emacs-version won't have build date.
+    options="--without-dbus"
     if test "$emacs_compress_files" = "no"; then
         options="$options --without-compress-install"
     else
