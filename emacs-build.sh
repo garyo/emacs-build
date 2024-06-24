@@ -230,7 +230,6 @@ function action2_install ()
         # we have to copy it by hand.
         make -j $emacs_build_threads -C $emacs_build_dir install \
             && cp "${mingw_dir}bin/libgmp"*.dll "$emacs_install_dir/bin/" \
-            && rm -f "$emacs_install_dir/bin/emacs-"*.exe \
             && emacs_build_strip_exes "$emacs_install_dir" \
             && cp "$emacs_build_root/scripts/site-start.el" "$emacs_install_dir/share/emacs/site-lisp" \
             && mkdir -p "$emacs_install_dir/usr/share/emacs/site-lisp/" \
