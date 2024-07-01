@@ -76,7 +76,7 @@ jobs:
           # Require --nativecomp and --with-* flags, else the deps will not be included properly
           command: |
             .\emacs-build.cmd --branch ${{ env.EMACS_BRANCH }} --nativecomp --slim --without-pop --without-imagemagick --without-compress-install --without-dbus --with-gnutls --with-json --with-tree-sitter --without-gconf --with-rsvg --without-gsettings --with-mailutils --with-modules  --with-xml2 --with-wide-int --build
-          attempt_limit: 5
+          attempt_limit: 3
           attempt_delay: 2000
 
       - name: Package Emacs
